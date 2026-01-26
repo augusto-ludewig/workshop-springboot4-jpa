@@ -8,9 +8,11 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
+import com.hibernate.study.couse.hibernate.entities.Category;
 import com.hibernate.study.couse.hibernate.entities.Order;
 import com.hibernate.study.couse.hibernate.entities.User;
 import com.hibernate.study.couse.hibernate.entities.enums.OrderStatus;
+import com.hibernate.study.couse.hibernate.repositories.CategoryRepository;
 import com.hibernate.study.couse.hibernate.repositories.OrderRepository;
 import com.hibernate.study.couse.hibernate.repositories.UserRepository;
 
@@ -23,6 +25,9 @@ public class DesenvolvimentoConfig implements CommandLineRunner {
 	
 	@Autowired
 	private OrderRepository orderRepository;
+	
+	@Autowired
+	private CategoryRepository categoryRepository;
 
 	@Override
 	public void run(String... args) throws Exception {
@@ -37,6 +42,11 @@ public class DesenvolvimentoConfig implements CommandLineRunner {
 		Order o3 = new Order(null, Instant.parse("2025-12-06T03:42:10Z"), u2, OrderStatus.CANCELED);
 		orderRepository.saveAll(Arrays.asList(o1, o2, o3));
 		
+		Category c1 = new Category(null, "Eletronics");
+		Category c2 = new Category(null, "Computers");
+		Category c3 = new Category(null, "Books");
+		Category c4 = new Category(null, "Tools");
+		categoryRepository.saveAll(Arrays.asList(c1, c2, c3, c4));
 	}
 	
 

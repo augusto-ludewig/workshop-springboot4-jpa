@@ -3,7 +3,6 @@ package com.hibernate.study.couse.hibernate.entities;
 import java.io.Serializable;
 import java.time.Instant;
 
-import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.hibernate.study.couse.hibernate.entities.enums.OrderStatus;
 
