@@ -10,10 +10,12 @@ import org.springframework.context.annotation.Profile;
 
 import com.hibernate.study.couse.hibernate.entities.Category;
 import com.hibernate.study.couse.hibernate.entities.Order;
+import com.hibernate.study.couse.hibernate.entities.Product;
 import com.hibernate.study.couse.hibernate.entities.User;
 import com.hibernate.study.couse.hibernate.entities.enums.OrderStatus;
 import com.hibernate.study.couse.hibernate.repositories.CategoryRepository;
 import com.hibernate.study.couse.hibernate.repositories.OrderRepository;
+import com.hibernate.study.couse.hibernate.repositories.ProductRepository;
 import com.hibernate.study.couse.hibernate.repositories.UserRepository;
 
 @Configuration
@@ -28,6 +30,10 @@ public class DesenvolvimentoConfig implements CommandLineRunner {
 	
 	@Autowired
 	private CategoryRepository categoryRepository;
+	
+	@Autowired
+	private ProductRepository productRepository;
+
 
 	@Override
 	public void run(String... args) throws Exception {
@@ -47,6 +53,10 @@ public class DesenvolvimentoConfig implements CommandLineRunner {
 		Category c3 = new Category(null, "Books");
 		Category c4 = new Category(null, "Tools");
 		categoryRepository.saveAll(Arrays.asList(c1, c2, c3, c4));
+		
+		Product p1 = new Product(null, "Notebook", "Notebook Lenovo, 8gb ram, i5, 258gb on disk", 21500.0, "https:\\image.com.br");
+		Product p2 = new Product(null, "Harry Potter", "Book one", 80.0, "https:\\image.com.br/book");
+		productRepository.saveAll(Arrays.asList(p1, p2));
 	}
 	
 

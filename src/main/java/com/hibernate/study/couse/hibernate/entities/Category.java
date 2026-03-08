@@ -1,20 +1,28 @@
 package com.hibernate.study.couse.hibernate.entities;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
+import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @EqualsAndHashCode(of = "id")
 @Getter
 @Setter
+@Table(name="tb_category")
 public class Category implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
@@ -22,12 +30,18 @@ public class Category implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
 	private String name;
+	
+	@Transient
+	@OneToOne(mappedBy = "categories")
+	private Set<Product> products = new HashSet<>();
 	
 	public Category() {
 	}
 
 	public Category(Long id, String name) {
+		super();
 		this.id = id;
 		this.name = name;
 	}
@@ -48,6 +62,14 @@ public class Category implements Serializable {
 		this.name = name;
 	}
 
+	public Set<Product> getProducts() {
+		return products;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
@@ -63,8 +85,6 @@ public class Category implements Serializable {
 			return false;
 		Category other = (Category) obj;
 		return Objects.equals(id, other.id);
-	}
-	
-	
+	}	
 	
 }
