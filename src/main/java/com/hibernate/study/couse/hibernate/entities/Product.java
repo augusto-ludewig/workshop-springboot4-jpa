@@ -7,28 +7,24 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
+
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Entity
-@Getter
-@Setter
-@NoArgsConstructor
-@Table(name="tb_product")
-public class Product implements Serializable{
-	
+@Table(name = "tb_product")
+public class Product implements Serializable {
+
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -37,19 +33,19 @@ public class Product implements Serializable{
 	private Double price;
 	private String imageUrl;
 	
-	@Transient
-	@OneToMany
+	@OneToMany(fetch = FetchType.EAGER)
 	@JoinColumn(name = "orders_id")
 	private List<Order> orders = new ArrayList<>();
 	
-	@Transient
-	@OneToOne
-	@JoinColumn(name = "category_id")
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name = "tb_product_category", 
+		joinColumns = @JoinColumn(name = "product_id"), 
+		inverseJoinColumns = @JoinColumn(name = "category_id"))
 	private Set<Category> categories = new HashSet<>();
-	 
+
 	public Product() {
 	}
-			
+
 	public Product(Long id, String name, String description, Double price, String imageUrl) {
 		super();
 		this.id = id;
@@ -127,5 +123,5 @@ public class Product implements Serializable{
 		Product other = (Product) obj;
 		return Objects.equals(id, other.id);
 	}
-	
+
 }

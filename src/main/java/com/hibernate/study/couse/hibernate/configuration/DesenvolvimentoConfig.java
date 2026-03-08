@@ -56,7 +56,12 @@ public class DesenvolvimentoConfig implements CommandLineRunner {
 		
 		Product p1 = new Product(null, "Notebook", "Notebook Lenovo, 8gb ram, i5, 258gb on disk", 21500.0, "https:\\image.com.br");
 		Product p2 = new Product(null, "Harry Potter", "Book one", 80.0, "https:\\image.com.br/book");
+		
+		p1.getCategories().add(c2);
+		p2.getCategories().add(c3);
+		
 		productRepository.saveAll(Arrays.asList(p1, p2));
+		
 	}
 	
 
