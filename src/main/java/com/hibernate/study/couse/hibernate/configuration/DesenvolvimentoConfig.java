@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Profile;
 import com.hibernate.study.couse.hibernate.entities.Category;
 import com.hibernate.study.couse.hibernate.entities.Order;
 import com.hibernate.study.couse.hibernate.entities.OrderItem;
+import com.hibernate.study.couse.hibernate.entities.Payment;
 import com.hibernate.study.couse.hibernate.entities.Product;
 import com.hibernate.study.couse.hibernate.entities.User;
 import com.hibernate.study.couse.hibernate.entities.enums.OrderStatus;
@@ -52,6 +53,10 @@ public class DesenvolvimentoConfig implements CommandLineRunner {
 		Order o2 = new Order(null, Instant.parse("2026-01-05T03:42:10Z"), u1, OrderStatus.PAID);
 		Order o3 = new Order(null, Instant.parse("2025-12-06T03:42:10Z"), u2, OrderStatus.CANCELED);
 		orderRepository.saveAll(Arrays.asList(o1, o2, o3));
+		
+		Payment pay1 = new Payment(null, Instant.parse("2026-01-05T03:52:10Z"), o1);
+		o1.setPayment(pay1);
+		orderRepository.save(o1);
 		
 		Category c1 = new Category(null, "Eletronics");
 		Category c2 = new Category(null, "Computers");
