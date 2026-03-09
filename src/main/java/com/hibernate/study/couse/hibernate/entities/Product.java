@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -32,16 +33,13 @@ public class Product implements Serializable {
 	private String description;
 	private Double price;
 	private String imageUrl;
-	
-	@OneToMany(fetch = FetchType.EAGER)
-	@JoinColumn(name = "orders_id")
-	private List<Order> orders = new ArrayList<>();
-	
+
 	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "tb_product_category", 
-		joinColumns = @JoinColumn(name = "product_id"), 
-		inverseJoinColumns = @JoinColumn(name = "category_id"))
+	@JoinTable(name = "tb_product_category", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
 	private Set<Category> categories = new HashSet<>();
+
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "id.product")
+	private Set<OrderItem> items = new HashSet<>();
 
 	public Product() {
 	}
@@ -95,12 +93,17 @@ public class Product implements Serializable {
 		this.imageUrl = imageUrl;
 	}
 
-	public List<Order> getOrders() {
-		return orders;
-	}
-
 	public Set<Category> getCategories() {
 		return categories;
+	}
+	
+	@JsonIgnore
+	public Set<Order> getOrders(){
+		Set<Order> set = new HashSet<>();
+		for(OrderItem i : this.items) {
+			set.add(i.getOrder());
+		}
+		return set;
 	}
 
 	public static long getSerialversionuid() {

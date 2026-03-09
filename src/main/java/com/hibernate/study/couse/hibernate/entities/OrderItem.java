@@ -3,6 +3,7 @@ package com.hibernate.study.couse.hibernate.entities;
 import java.io.Serializable;
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.hibernate.study.couse.hibernate.entities.pk.OrderItemPk;
 
 import jakarta.persistence.EmbeddedId;
@@ -17,7 +18,7 @@ public class OrderItem implements Serializable {
 
 	// CHAVE COMPOSTA (ORDER E ITEM)
 	@EmbeddedId
-	private OrderItemPk id;
+	private OrderItemPk id = new OrderItemPk();
 	private Integer quantity;
 	private Double price;
 	
@@ -31,7 +32,8 @@ public class OrderItem implements Serializable {
 		this.quantity = quantity;
 		this.price = price;
 	}
-	
+		
+	@JsonIgnore
 	public Order getOrder() {
 		return id.getOrder();
 	}
