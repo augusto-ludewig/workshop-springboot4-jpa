@@ -1,12 +1,14 @@
 package com.hibernate.study.couse.hibernate.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.hibernate.study.couse.hibernate.entities.User;
 import com.hibernate.study.couse.hibernate.repositories.UserRepository;
+import com.hibernate.study.couse.hibernate.services.exceptions.ResourceNotFoundException;
 
 import jakarta.transaction.Transactional;
 
@@ -21,7 +23,8 @@ public class UserService {
 	}
 	
 	public User findById(Long id) {
-		return userRepository.findById(id).get();
+		Optional<User> user = userRepository.findById(id);
+		return user.orElseThrow(() -> new ResourceNotFoundException(id));
 	}
 	
 	public User insert(User user) {
@@ -38,7 +41,7 @@ public class UserService {
 		updateData(entity, user);
 		return userRepository.save(entity);		
 	}
-
+	
 	private void updateData(User entity, User user) {
 		entity.setName(user.getName());
 		entity.setEmail(user.getEmail());
